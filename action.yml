@@ -88,10 +88,24 @@ runs:
       shell: bash
       run: |
         set -e
-        if [ -f ./app/${{ inputs.application-file }} ]; then
-          cp ./app/${{ inputs.application-file }} ./terragrunt/application.yaml
-          echo "applicationfile=ok" >> $GITHUB_OUTPUT
-        fi
+        cp ./app/${{ inputs.application-file }} ./terragrunt/application.yaml
+    # Setup go
+    - name: Setup go
+      uses: actions/setup-go@v4
+      with:
+        token: ${{ inputs.github-token }}
+        go-version: 1.18
+    # Setup yq & cue
+    - name: Setup cue
+      shell: bash
+      run: |
+        go install cuelang.org/go/cmd/cue@v0.4.3
+    # Cue vetting
+    - name: Cue vetting
+      shell: bash
+      run: |
+        set -e
+        cue vet ./terragrunt/application.yaml ./terragrunt/application.cue
     # Configure aws credentials
     - name: Configure AWS credentials for security
       uses: aws-actions/configure-aws-credentials@v1
