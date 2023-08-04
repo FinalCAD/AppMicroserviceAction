@@ -157,4 +157,4 @@ runs:
         export TF_VAR_region_friendly=${{ inputs.region-friendly }}
         export TF_VAR_application_id=${{ inputs.app-name }}
         terragrunt run-all init -reconfigure
-        terragrunt run-all apply -auto-approve
+        terragrunt run-all apply -auto-approve --terragrunt-non-interactive
