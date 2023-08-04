@@ -110,7 +110,7 @@ runs:
     - name: Configure AWS credentials for security
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-region: ${{ inputs.aws-region }}
+        aws-region: ${{ steps.aws_region.outputs.awsregion }}
         role-to-assume: ${{ inputs.aws-role }}
         role-session-name: OIDCSession
     # Terragrunt plan
