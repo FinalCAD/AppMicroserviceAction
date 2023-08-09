@@ -4,6 +4,9 @@ inputs:
   app-name:
     description: 'Application id'
     required: true
+  app-suffix:
+    description: 'Suffix for namming'
+    default: ''
   aws-role:
     description: 'Aws role to apply changes'
     required: true
@@ -121,6 +124,7 @@ runs:
         cd ./terragrunt/${{ inputs.environment }}/${{ inputs.region-friendly }}
         export TF_VAR_region_friendly=${{ inputs.region-friendly }}
         export TF_VAR_application_id=${{ inputs.app-name }}
+        export TF_VAR_application_suffix=${{ inputs.app-suffix }}
         terragrunt run-all init -reconfigure
         terragrunt run-all plan -out plan
         terragrunt run-all show plan -no-color > ${{ github.workspace }}/terragrunt/plan.txt
@@ -156,5 +160,6 @@ runs:
         cd ./terragrunt/${{ inputs.environment }}/${{ inputs.region-friendly }}
         export TF_VAR_region_friendly=${{ inputs.region-friendly }}
         export TF_VAR_application_id=${{ inputs.app-name }}
+        export TF_VAR_application_suffix=${{ inputs.app-suffix }}
         terragrunt run-all init -reconfigure
         terragrunt run-all apply -auto-approve --terragrunt-non-interactive

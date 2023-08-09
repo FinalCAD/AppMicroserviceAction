@@ -11,6 +11,9 @@ You can find a list of all available secrets keys on this [page](https://finalca
 ### `app-name`
 [**Required**] Application ID to identify the apps in eks-apps
 
+### `app-suffix`
+Add suffix to resources for mono-repoistory mainly
+
 ### `aws-role`
 [**Required**] AWS role allowing Secret manager usage
 
