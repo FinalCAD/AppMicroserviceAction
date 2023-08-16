@@ -3,7 +3,7 @@
 Github Action to deploy all resource for a microservice
 File should match this path `.finalcad/application.yaml`.
 
-Refer to `application.cue` file in `FinalCAD/AppSecretsAction` for all keys available
+Refer to `application.cue` file in `FinalCAD/terraform-app-microservice` for all keys available [here] (https://github.com/FinalCAD/terraform-app-microservice)
 
 You can find a list of all available secrets keys on this [page](https://finalcad.atlassian.net/wiki/spaces/INFRA/pages/3213590529/Security+secrets)
 
