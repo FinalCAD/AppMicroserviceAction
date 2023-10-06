@@ -12,10 +12,10 @@ inputs:
     required: true
   terraform-version:
     description: 'Terraform version to install'
-    default: 'latest'
+    default: '1.5.7'
   terragrunt-version:
     description: 'Terragrunt version to install'
-    default: 'latest'
+    default: '0.52.0'
   application-repo:
     description: 'terraform-app-microservice repository'
     default: 'FinalCAD/terraform-app-microservice'
