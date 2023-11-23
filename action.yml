@@ -91,7 +91,7 @@ runs:
       shell: bash
       run: |
         set -e
-        if ! [ -f /app/${{ inputs.application-file }} ]; then
+        if ! [ -f ./app/${{ inputs.application-file }} ]; then
           echo "application file is missing"
           exit 1
         fi
