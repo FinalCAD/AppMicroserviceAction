@@ -122,6 +122,7 @@ runs:
         role-session-name: OIDCSession
     # Terragrunt plan
     - name: Terragrunt plan
+      if: inputs.pr-number != ''
       shell: bash
       run: |
         set -e
