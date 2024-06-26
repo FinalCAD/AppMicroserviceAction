@@ -133,10 +133,9 @@ runs:
         terragrunt run-all init -reconfigure
         terragrunt run-all plan -out plan
         terragrunt run-all show plan -no-color > ${{ github.workspace }}/terragrunt/plan.txt
-      continue-on-error: true
     # Comment on pr
     - uses: actions/github-script@v6
-      if: inputs.pr-number != ''
+      if: inputs.pr-number != '' && !cancelled()
       env:
         PLAN: ${{ steps.plan.outputs.show }}
       with:
