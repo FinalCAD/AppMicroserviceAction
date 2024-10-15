@@ -12,7 +12,7 @@ inputs:
     required: true
   terraform-version:
     description: 'Terraform version to install'
-    default: '1.5.7'
+    default: '1.9.7'
   terragrunt-version:
     description: 'Terragrunt version to install'
     default: '0.68.1'
