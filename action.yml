@@ -127,7 +127,6 @@ runs:
       run: |
         set -e
         cd ./terragrunt/${{ inputs.environment }}/${{ inputs.region-friendly }}
-        export TF_VAR_region_friendly=${{ inputs.region-friendly }}
         export TF_VAR_application_id=${{ inputs.app-name }}
         export TF_VAR_application_suffix=${{ inputs.app-suffix }}
         terragrunt run-all init -reconfigure
@@ -163,7 +162,6 @@ runs:
       run: |
         set -e
         cd ./terragrunt/${{ inputs.environment }}/${{ inputs.region-friendly }}
-        export TF_VAR_region_friendly=${{ inputs.region-friendly }}
         export TF_VAR_application_id=${{ inputs.app-name }}
         export TF_VAR_application_suffix=${{ inputs.app-suffix }}
         terragrunt run-all init -reconfigure
