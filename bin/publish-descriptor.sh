@@ -158,8 +158,16 @@ function main() {
     echo
     echo "[INFO] Success"
   else
-    echo >&2
-    echo "[ERROR] Failure" >&2
+    {
+      [[ ! -f "${descriptor_directory}/metadata.json" ]] || {
+        echo
+        echo "---------- metadata.json ----------"
+        cat "${descriptor_directory}/metadata.json"
+        echo "-----------------------------------"
+      }
+      echo
+      echo "[ERROR] Failure"
+    } >&2
   fi
 
   return $rc
@@ -196,7 +204,7 @@ function main.exec() {
 
   local application_name="${TF_VAR_application_id}"
   [[ -z "${TF_VAR_application_suffix}" ]] || application_name+="_${TF_VAR_application_suffix}"
-  local descriptor_directory="${DEPLOYMENT_DESCRIPTOR_GIT_REPOSITORY}/microservice/${FINALCAD_ENVIRONMENT}/${FINALCAD_REGION_FRIENDLY}/${application_name}"
+  descriptor_directory="${DEPLOYMENT_DESCRIPTOR_GIT_REPOSITORY}/microservice/${FINALCAD_ENVIRONMENT}/${FINALCAD_REGION_FRIENDLY}/${application_name}"
 
   echo "[INFO] Initialize descriptor directory '${descriptor_directory}'"
   [[ ! -d "${descriptor_directory}" ]] || rm -rf "${descriptor_directory}"
@@ -328,10 +336,13 @@ EOF
     }
     local author_name=''
     local author_email=''
+    local author_source=''
     if [[ ! -z "${GITHUB_ACTOR_ID}" ]]; then
+      author_source='environment' &&
       author_name="${GITHUB_ACTOR:-unknown}" &&
       author_email="${GITHUB_ACTOR_ID}+${author_name}@users.noreply.github.com"
     else
+      author_source='git' &&
       author_name="$(git.repo.application show --format='%an' --no-patch)" &&
       author_email="$(git.repo.application show --format='%ae' --no-patch)" &&
       true || {
@@ -340,6 +351,7 @@ EOF
         return $rc
       }
     fi
+    echo "[INFO]    author (${author_source}): name='${author_name}'   email='${author_email}'"
     GIT_COMMITTER_NAME="${author_name}" GIT_COMMITTER_EMAIL="${author_email}" \
     git.repo.descriptor commit \
       --allow-empty \
