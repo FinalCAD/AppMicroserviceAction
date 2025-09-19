@@ -354,9 +354,9 @@ EOF
     git.repo.descriptor pull --rebase && git.repo.descriptor push; local status=$?
     if [[ ${status} != 0 ]]; then
       local retry=0
-      for retry in {1..10}; do
-        printf "[WARN] Cannot 'git push' descriptor directory '${descriptor_directory}', retrying in 10 seconds (Attempt: #%d)\n" "${retry}" >&2
-        sleep 10
+      for retry in {1..60}; do
+        printf "[WARN] Cannot 'git push' descriptor directory '${descriptor_directory}', retrying in 2 seconds (Attempt: #%d)\n" "${retry}" >&2
+        sleep 2
         git.repo.descriptor pull --rebase && git.repo.descriptor push; status=$?
         [[ ${status} != 0 ]] || break
       done
