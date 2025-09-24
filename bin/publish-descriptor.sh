@@ -352,13 +352,22 @@ EOF
       }
     fi
     echo "[INFO]    author (${author_source}): name='${author_name}'   email='${author_email}'"
-    GIT_COMMITTER_NAME="${author_name}" GIT_COMMITTER_EMAIL="${author_email}" \
+    git.repo.descriptor config user.name "${author_name}" || {
+      rc=$?
+      echo "[ERROR] Cannot set descriptor Git user.name" >&2
+      return $rc
+    }
+    git.repo.descriptor config user.email "${author_email}" || {
+      rc=$?
+      echo "[ERROR] Cannot set descriptor Git user.email" >&2
+      return $rc
+    }
     git.repo.descriptor commit \
       --allow-empty \
-      --author "${author_name} <${author_email}>" \
       --message "Deploy ${FINALCAD_ENVIRONMENT} ${FINALCAD_REGION_FRIENDLY} ${application_name}" \
-    || {
-      rc=$?
+    ; rc=$?
+    echo "[INFO]    commit rc=${rc}"
+    [[ $rc == 0 ]] || {
       echo "[ERROR] Cannot commit descriptor directory '${descriptor_directory}'" >&2
       return $rc
     }
