@@ -22,9 +22,9 @@ inputs:
   application-ref:
     description: 'Ref to use for pulling repo terraform-app-microservice'
     default: 'master'
-  deployment-descriptors-repo:
+  deployment-descriptors-git-url:
     description: 'Repository to push deployment descriptors'
-    default: 'FinalCAD/infrastructure-deployment-descriptors'
+    default: 'git@gitlab.com:orisha-group/construction/advae/finalcad-one/infrastructure/infrastructure-deployment-descriptors.git'
   deployment-descriptors-ref:
     description: 'Git ref to use for pushing deployment descriptors'
     default: 'master'
@@ -81,12 +81,17 @@ runs:
           'terragrunt'
         echo '::endgroup::'
     - name: Checkout deployment descriptor repository
-      uses: actions/checkout@v7
-      with:
-        ssh-key: ${{ inputs.github-ssh }}
-        repository: "${{ inputs.deployment-descriptors-repo }}"
-        ref: ${{ inputs.deployment-descriptors-ref }}
-        path: 'deployment-descriptors'
+      shell: bash
+      run: |
+        echo '::group::Checkout deployment descriptor repository'
+        git clone \
+          --progress \
+          --branch '${{ inputs.deployment-descriptors-ref }}' \
+          --depth 1 \
+          --no-tags \
+          '${{ inputs.deployment-descriptors-git-url }}' \
+          'deployment-descriptors'
+        echo '::endgroup::'
     - name: Detect aws region
       id: aws_region
       shell: bash
@@ -211,4 +216,5 @@ runs:
       run: |
         echo '::group::Clear local repositories'
         rm -rf './terragrunt'
+        rm -rf './deployment-descriptors'
         echo '::endgroup::'
