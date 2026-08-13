@@ -206,3 +206,9 @@ runs:
         export TF_VAR_application_suffix=${{ inputs.app-suffix }}
         terragrunt run-all init -reconfigure
         terragrunt run-all apply -auto-approve --terragrunt-non-interactive
+    - name: Clear local repositories
+      shell: bash
+      run: |
+        echo '::group::Clear local repositories'
+        rm -rf './terragrunt'
+        echo '::endgroup::'
